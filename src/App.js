@@ -101,7 +101,6 @@ export default function App() {
       const res = await fetch(url);
       const conwertObjDataFromUrl = await res.json();
       return setData(conwertObjDataFromUrl);
-      
     }
     getchData()
   },[])
