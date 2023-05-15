@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-const url = 'https://jsonplaceholder.typicode.com/users'
+// const url = 'https://jsonplaceholder.typicode.com/users'
 
 
 // Вариант 1, вызов по кнопке
@@ -93,26 +93,36 @@ const url = 'https://jsonplaceholder.typicode.com/users'
 
 export default function App() {
 
-  const [info, setData] = useState([]);
+  const [info, setInfo] = useState([]);
+  const [error, setError] = useState('');
     
 
   useEffect(() => {
-    const getchData = async() => {
-      const res = await fetch(url);
-      const conwertObjDataFromUrl = await res.json();
-      return setData(conwertObjDataFromUrl);
-    }
-    getchData()
+      async function getchData() {
+        try{
+          const res = await fetch('https://jsonplaceholder.typicode.com/users');
+          const conwertObjDataFromUrl = await res.json();
+          return setInfo(conwertObjDataFromUrl);
+        } catch (err) {
+          setError('Something went wrong')
+        } 
+      }
+      getchData()
   },[])
+
+   
 
   return (
     <div className="App">
-      <h1>Вывод</h1>  
-      {info.map(item => {
-        return (
-          <p key={item.id}>{`id = ${item.id} Name = ${item.name}`}</p>
-        )
-      })}
+      <div>
+        <h1>Вывод</h1> 
+          {info.map(item => {
+            return (
+              <p key={item.id}>{`id = ${item.id} Name = ${item.name}`}</p>
+            )
+            })}
+      </div>
+      <p>{error}</p>            
     </div>  
   );
 }
